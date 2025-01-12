@@ -5,11 +5,11 @@ variables {
   vnc_port_min         = "5920"
   accelerator          = "kvm"
   headless             = "true"
-  output_dir           = "./output/"
-  qemu_disk_cache      = "writeback"
+  output_dir           = "./output"
+  qemu_disk_cache      = "unsafe"
   qemu_format          = "qcow2"
   boot_wait            = "15s"
-  disk_compression     = true
+  disk_compression     = "true"
   disk_discard         = "unmap"
   arc                  = "x86_64"
   disk_interface       = "virtio"
@@ -29,7 +29,7 @@ variables {
 source "qemu" "legacy-12-x86_64" {
   vm_name          = var.vm_name
   output_directory = "${var.output_dir}/debian/legacy-12-x86_64"
-  disk_size        = "8G"
+  disk_size        = "4G"
   boot_command     = [
     "<esc><wait>", "auto <wait>",
     "console-keymaps-at/keymap=de <wait>",
