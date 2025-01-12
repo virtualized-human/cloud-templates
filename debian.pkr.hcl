@@ -17,8 +17,8 @@ variables {
   net_device           = "virtio-net"
   config_folder        = "config/"
   ssh_username         = "root"
-  ssh_password         = "Passw0rd!"
-  ssh_wait_timeout     = "60m"
+  ssh_password         = "i5VA3RSwi8ExsQ"
+  ssh_wait_timeout     = "15m"
   cpu                  = "4"
   ram                  = "2048"
   iso_checksum_type    = "sha512"
@@ -28,8 +28,8 @@ variables {
 
 source "qemu" "legacy-12-x86_64" {
   vm_name          = var.vm_name
-  output_directory = "${var.output_dir}debian-12-x86_64"
-  disk_size        = "10G"
+  output_directory = "${var.output_dir}/debian/legacy-12-x86_64"
+  disk_size        = "8G"
   boot_command     = [
     "<esc><wait>", "auto <wait>",
     "console-keymaps-at/keymap=de <wait>",
@@ -67,23 +67,7 @@ build {
   ]
 
   provisioner "shell" {
-    only             = ["qemu.legacy-12-x86_64"]
     valid_exit_codes = [0, 1, 127]
-    inline           = [
-      "DEBIAN_FRONTEND=noninteractive apt-get -y update",
-      "DEBIAN_FRONTEND=noninteractive apt-get -y install qemu-guest-agent cloud-init cloud-guest-utils ifupdown2",
-      "echo -e '# This file describes the network interfaces available on your system\n# and how to activate them. For more information, see interfaces(5).\n\nsource /etc/network/interfaces.d/*' > /etc/network/interfaces",
-      "DEBIAN_FRONTEND=noninteractive apt-get -y install htop iftop iotop nmon nload btop zip unzip tar bzip2 tmux nano vim wget curl screen sudo",
-      "DEBIAN_FRONTEND=noninteractive apt-get -y install resolvconf",
-      "rm -rf /tmp/*",
-      "rm -rf /var/tmp/*",
-      "rm -rf /etc/ssh/*host*key*",
-      "truncate -s 0 /etc/machine-id",
-      "DEBIAN_FRONTEND=noninteractive apt-get -y autoremove --purge",
-      "DEBIAN_FRONTEND=noninteractive apt-get clean",
-      "sync",
-      "passwd -d root",
-      "passwd -l root"
-    ]
+    script           = "config/debian/script.sh"
   }
 }
