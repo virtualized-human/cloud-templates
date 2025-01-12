@@ -22,13 +22,13 @@ variables {
   cpu                  = "4"
   ram                  = "2048"
   iso_checksum_type    = "sha512"
-  iso_12               = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.9.0-amd64-netinst.iso"
-  iso_12_checksum      = "9ebe405c3404a005ce926e483bc6c6841b405c4d85e0c8a7b1707a7fe4957c617ae44bd807a57ec3e5c2d3e99f2101dfb26ef36b3720896906bdc3aaeec4cd80"
+  debian12_iso         = "https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.9.0-amd64-netinst.iso"
+  debian12_iso_checksum = "9ebe405c3404a005ce926e483bc6c6841b405c4d85e0c8a7b1707a7fe4957c617ae44bd807a57ec3e5c2d3e99f2101dfb26ef36b3720896906bdc3aaeec4cd80"
 }
 
-source "qemu" "legacy-12-x86_64" {
+source "qemu" "debian-12-x86_64" {
   vm_name          = var.vm_name
-  output_directory = "${var.output_dir}/debian/legacy-12-x86_64"
+  output_directory = "${var.output_dir}/debian-12-x86_64"
   disk_size        = "4G"
   boot_command     = [
     "<esc><wait>", "auto <wait>",
@@ -48,8 +48,8 @@ source "qemu" "legacy-12-x86_64" {
   format           = var.format
   headless         = var.headless
   http_directory   = "."
-  iso_checksum     = var.iso_12_checksum
-  iso_urls         = [var.iso_12]
+  iso_checksum     = var.debian12_iso_checksum
+  iso_urls         = [var.debian12_iso]
   net_device       = var.net_device
   qemuargs         = [["-m", "${var.ram}M"], ["-smp", "${var.cpu}"]]
   shutdown_command = "echo '${var.ssh_password}' | shutdown -P now"
@@ -63,11 +63,11 @@ source "qemu" "legacy-12-x86_64" {
 
 build {
   sources = [
-    "qemu.legacy-12-x86_64"
+    "qemu.debian-12-x86_64"
   ]
 
   provisioner "shell" {
     valid_exit_codes = [0, 1, 127]
-    script           = "config/debian/script.sh"
+    script           = "config/script.sh"
   }
 }
