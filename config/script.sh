@@ -18,6 +18,8 @@ echo -e '# Restrict key exchange, cipher, and MAC algorithms, as per sshaudit.co
 sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 # Fail2Ban
 apt-get -y install fail2ban python3-systemd
+systemctl stop fail2ban
+systemctl enable fail2ban
 cat << "EOF" > /etc/fail2ban/jail.local
 [DEFAULT]
 backend = systemd
@@ -29,6 +31,12 @@ findtime = 600
 [sshd]
 enabled = true
 EOF
+# NTP
+apt-get install -y ntp
+apt-get purge -y systemd-timesyncd
+systemctl stop ntp
+echo "server ntp.virtualized.app iburst" > /etc/ntpsec/ntp.conf
+systemctl enable ntp
 # Network
 ## Resolvconf for DNS via ifupdown2, ifupdown2 as modern ifupdown replacement.
 apt-get -y install resolvconf ifupdown2
@@ -43,6 +51,7 @@ EOF
 systemctl daemon-reload
 # First-boot
 apt-get -y install cron
+systemctl stop cron
 systemctl enable cron
 cat << "EOF" > /etc/cron.d/first-boot-cmds
 PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
