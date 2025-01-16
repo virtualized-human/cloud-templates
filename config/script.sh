@@ -36,7 +36,6 @@ apt-get install -y ntp
 apt-get purge -y systemd-timesyncd
 systemctl stop ntp
 echo "server ntp.virtualized.app iburst" > /etc/ntpsec/ntp.conf
-systemctl enable ntp
 # Network
 ## Resolvconf for DNS via ifupdown2, ifupdown2 as modern ifupdown replacement.
 apt-get -y install resolvconf ifupdown2
