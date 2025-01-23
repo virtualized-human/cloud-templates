@@ -60,8 +60,8 @@ source "qemu" "debian-12-btrfs-x86_64" {
   vnc_port_max     = var.vnc_port_max
 }
 
-source "qemu" "debian-12-ext4-x86_64" {
-  output_directory = "${var.output_dir}/debian-12-ext4-x86_64"
+source "qemu" "debian-12-x86_64" {
+  output_directory = "${var.output_dir}/debian-12-x86_64"
   disk_size        = "${var.disk_size}"
   boot_command     = [
     "<esc><wait>", "auto <wait>",
@@ -69,7 +69,7 @@ source "qemu" "debian-12-ext4-x86_64" {
     "console-setup/ask_detect=false <wait>", "debconf/frontend=noninteractive <wait>",
     "fb=false <wait>", "kbd-chooser/method=us <wait>", "keyboard-configuration/xkb-keymap=us <wait>",
     "locale=en_US <wait>", "netcfg/get_hostname=debian <wait>",
-    "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.config_folder}debian/preseed-legacy-ext4.cfg <wait>",
+    "preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/${var.config_folder}debian/preseed-legacy.cfg <wait>",
     "<enter><wait>"
   ]
   boot_wait        = var.boot_wait
@@ -96,8 +96,7 @@ source "qemu" "debian-12-ext4-x86_64" {
 
 build {
   sources = [
-    "qemu.debian-12-btrfs-x86_64",
-    "qemu.debian-12-ext4-x86_64"
+    "qemu.debian-12-x86_64"
   ]
 
   provisioner "shell" {
