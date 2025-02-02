@@ -32,10 +32,10 @@ findtime = 600
 enabled = true
 EOF
 # NTP
-apt-get install -y ntp
-apt-get purge -y systemd-timesyncd
-systemctl stop ntp
-echo "server ntp.virtualized.app iburst" > /etc/ntpsec/ntp.conf
+apt-get install -y systemd-timesyncd
+sed -i 's/^#NTP=.*/NTP=ntp.virtualized.app/' /etc/systemd/timesyncd.conf
+sed -i 's/.*PollIntervalMinSec=.*/PollIntervalMinSec=60/' /etc/systemd/timesyncd.conf
+sed -i 's/.*PollIntervalMaxSec=.*/PollIntervalMaxSec=60/' /etc/systemd/timesyncd.conf
 # Network
 ## Resolvconf for DNS via ifupdown2, ifupdown2 as modern ifupdown replacement.
 apt-get -y install resolvconf ifupdown2
