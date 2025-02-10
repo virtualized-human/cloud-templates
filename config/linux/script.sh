@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 # Updates and Tools
 apt-get -y update
 apt-get -y full-upgrade
-apt-get -y install htop iftop iotop nmon nload btop zip unzip tar bzip2 tmux nano vim wget curl screen sudo
+apt-get -y install htop iftop iotop nmon nload btop zip unzip tar bzip2 tmux nano vim wget curl screen sudo tcpdump
 # Cloud-Init/Guest Tools
 apt-get -y install qemu-guest-agent cloud-init cloud-guest-utils
 sed -i 's/disable_root: true/disable_root: false/' /etc/cloud/cloud.cfg
