@@ -16,7 +16,11 @@ This packer repo builds customized cloud images according to the style of @virtu
 3. Optimized configuration of Cloud-Init
     - at least under proxmox it is typical that a cloud-init repeatedly regenerates the `/etc/hosts`, the hostname and the ssh keys. This is very frustrating if you have only made small changes (such as the user password or the network).  This is completely taken into account here and it is ensured that this does not happen.
 
-3. Important packages pre-installed
+4. Hardening
+    - ssh only accepts current, secure chipher, according to sshaudit.
+    - fail2ban is pre-installed and configured to work with ssh for additonal security.
+
+5. Important packages pre-installed
     - I have pre-installed packages that I consider important and use again and again.
 
 
