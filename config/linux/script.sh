@@ -34,6 +34,7 @@ EOF
 # NTP
 apt-get install -y systemd-timesyncd
 sed -i 's/^#NTP=.*/NTP=ntp.virtualized.app/' /etc/systemd/timesyncd.conf
+sed -i 's/^#FallbackNTP=/FallbackNTP=/' /etc/systemd/timesyncd.conf # enable fallback ntp
 sed -i 's/.*PollIntervalMinSec=.*/PollIntervalMinSec=60/' /etc/systemd/timesyncd.conf
 sed -i 's/.*PollIntervalMaxSec=.*/PollIntervalMaxSec=60/' /etc/systemd/timesyncd.conf
 # Network
